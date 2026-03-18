@@ -1,6 +1,7 @@
 name: software-poc-check
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - ".github/workflows/software-poc-check.yml"
@@ -29,4 +30,3 @@ jobs:
 
       - name: Run software-poc checks
         run: npm run check
-
