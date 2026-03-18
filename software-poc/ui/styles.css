@@ -1,0 +1,255 @@
+:root {
+  --bg: #09111c;
+  --bg-accent: #122339;
+  --panel: rgba(11, 19, 31, 0.86);
+  --panel-strong: rgba(16, 28, 45, 0.92);
+  --line: rgba(120, 184, 255, 0.2);
+  --text: #e9f0fb;
+  --muted: #97aac5;
+  --good: #6be7a4;
+  --warn: #ffc76f;
+  --bad: #ff6f7d;
+  --accent: #79c2ff;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+  --radius: 22px;
+  --frame-width: 1280px;
+  --frame-height: 720px;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(35, 90, 160, 0.35), transparent 32%),
+    radial-gradient(circle at top right, rgba(18, 119, 150, 0.25), transparent 26%),
+    linear-gradient(160deg, var(--bg) 0%, #050910 100%);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(121, 194, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(121, 194, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
+  pointer-events: none;
+}
+
+.shell {
+  width: min(100%, var(--frame-width));
+  min-height: min(var(--frame-height), calc(100vh - 48px));
+  position: relative;
+  z-index: 1;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(10, 18, 30, 0.95), rgba(7, 13, 23, 0.96));
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.topbar,
+.metrics,
+.grid,
+.workflow-list {
+  display: grid;
+  gap: 16px;
+}
+
+.topbar {
+  grid-template-columns: 1.5fr 1fr;
+  margin-bottom: 18px;
+}
+
+.headline,
+.meta,
+.card,
+.workflow {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: var(--radius);
+}
+
+.headline,
+.meta {
+  padding: 20px;
+}
+
+.eyebrow,
+.label {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.74rem;
+}
+
+.headline h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+  line-height: 1;
+}
+
+.headline p,
+.meta p,
+.card p,
+.workflow p,
+.list {
+  margin: 0;
+  color: var(--muted);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chip-row,
+.scenario-picker,
+.card-grid,
+.workflow-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip,
+.scenario-button {
+  border: 1px solid rgba(121, 194, 255, 0.25);
+  background: rgba(18, 34, 57, 0.8);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 0.88rem;
+}
+
+.scenario-button {
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.scenario-button:hover,
+.scenario-button[aria-pressed="true"] {
+  transform: translateY(-1px);
+  border-color: rgba(121, 194, 255, 0.55);
+  background: rgba(31, 60, 97, 0.92);
+}
+
+.metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.metric {
+  border-radius: 18px;
+  padding: 18px;
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+}
+
+.metric strong {
+  display: block;
+  font-size: 1.7rem;
+  margin-top: 8px;
+}
+
+.grid {
+  grid-template-columns: 1.1fr 0.9fr;
+  margin-bottom: 16px;
+}
+
+.card {
+  padding: 20px;
+}
+
+.card h2,
+.workflow h2 {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tile {
+  border: 1px solid rgba(121, 194, 255, 0.14);
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tile strong {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 1rem;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+.list span {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.workflow-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workflow {
+  padding: 18px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.status::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--good);
+}
+
+.status.warn::before {
+  background: var(--warn);
+}
+
+.status.bad::before {
+  background: var(--bad);
+}
+
+@media (max-width: 1180px) {
+  .topbar,
+  .grid,
+  .metrics,
+  .workflow-list {
+    grid-template-columns: 1fr;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}

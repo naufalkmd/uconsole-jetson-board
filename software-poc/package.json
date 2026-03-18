@@ -1,0 +1,10 @@
+{
+  "name": "uconsole-jetson-software-poc",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export-state": "node tools/export-state.mjs",
+    "serve": "node tools/dev-server.mjs",
+    "validate": "node tools/validate-workflows.mjs"
+  }
+}
