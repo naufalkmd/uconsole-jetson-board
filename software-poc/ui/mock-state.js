@@ -1,6 +1,6 @@
 window.MOCK_SCENARIOS = {
   "default": {
-    "generatedAt": "2026-03-18T09:45:28.804Z",
+    "generatedAt": "2026-03-18T22:59:49.042Z",
     "battery": {
       "percentage": 82,
       "charging": false,
@@ -55,7 +55,7 @@ window.MOCK_SCENARIOS = {
     }
   },
   "field-lte": {
-    "generatedAt": "2026-03-18T09:45:28.807Z",
+    "generatedAt": "2026-03-18T22:59:49.043Z",
     "battery": {
       "percentage": 67,
       "charging": false,
@@ -110,7 +110,7 @@ window.MOCK_SCENARIOS = {
     }
   },
   "low-battery": {
-    "generatedAt": "2026-03-18T09:45:28.807Z",
+    "generatedAt": "2026-03-18T22:59:49.043Z",
     "battery": {
       "percentage": 14,
       "charging": false,
@@ -165,7 +165,7 @@ window.MOCK_SCENARIOS = {
     }
   },
   "docked-desk": {
-    "generatedAt": "2026-03-18T09:45:28.807Z",
+    "generatedAt": "2026-03-18T22:59:49.043Z",
     "battery": {
       "percentage": 91,
       "charging": true,
@@ -217,6 +217,116 @@ window.MOCK_SCENARIOS = {
       "connected": true,
       "layout": "uconsole",
       "inputMode": "keyboard"
+    }
+  },
+  "modem-outage": {
+    "generatedAt": "2026-03-18T22:59:49.043Z",
+    "battery": {
+      "percentage": 53,
+      "charging": false,
+      "warning": false,
+      "voltage": 7.44,
+      "runtimeMinutes": 120
+    },
+    "gpio": {
+      "screen_power": true,
+      "modem_power": false,
+      "modem_reset": true,
+      "dock_detect": false,
+      "wake_request": false
+    },
+    "backlight": {
+      "enabled": true,
+      "brightness": 72
+    },
+    "modem": {
+      "present": false,
+      "powered": false,
+      "sim": "missing",
+      "network": "searching",
+      "signalDbm": -120,
+      "technology": "LTE",
+      "carrier": "MockTel",
+      "ipAssigned": false
+    },
+    "thermal": {
+      "cpuC": 58,
+      "skinC": 39,
+      "batteryC": 33,
+      "fan": "off"
+    },
+    "dock": {
+      "connected": false,
+      "ethernet": false,
+      "usbDevices": 0,
+      "charging": false,
+      "powerBudgetW": 0
+    },
+    "display": {
+      "width": 1280,
+      "height": 720,
+      "scale": 1,
+      "mode": "handheld"
+    },
+    "keyboard": {
+      "connected": true,
+      "layout": "uconsole",
+      "inputMode": "keyboard"
+    }
+  },
+  "keyboard-disconnected": {
+    "generatedAt": "2026-03-18T22:59:49.043Z",
+    "battery": {
+      "percentage": 48,
+      "charging": false,
+      "warning": false,
+      "voltage": 7.38,
+      "runtimeMinutes": 95
+    },
+    "gpio": {
+      "screen_power": true,
+      "modem_power": true,
+      "modem_reset": false,
+      "dock_detect": false,
+      "wake_request": false
+    },
+    "backlight": {
+      "enabled": true,
+      "brightness": 78
+    },
+    "modem": {
+      "present": true,
+      "powered": true,
+      "sim": "ready",
+      "network": "registered",
+      "signalDbm": -82,
+      "technology": "LTE",
+      "carrier": "MockTel",
+      "ipAssigned": true
+    },
+    "thermal": {
+      "cpuC": 58,
+      "skinC": 39,
+      "batteryC": 33,
+      "fan": "off"
+    },
+    "dock": {
+      "connected": false,
+      "ethernet": false,
+      "usbDevices": 0,
+      "charging": false,
+      "powerBudgetW": 0
+    },
+    "display": {
+      "width": 1280,
+      "height": 720,
+      "scale": 1,
+      "mode": "handheld"
+    },
+    "keyboard": {
+      "connected": false,
+      "layout": "uconsole",
+      "inputMode": "touch"
     }
   }
 };

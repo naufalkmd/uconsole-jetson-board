@@ -1,0 +1,12 @@
+I: Bus=0019 Vendor=0000 Product=0001 Version=0000
+N: Name="Power Button"
+H: Handlers=kbd event0
+
+I: Bus=0011 Vendor=0001 Product=0001 Version=ab41
+N: Name="AT Translated Set 2 keyboard"
+H: Handlers=sysrq kbd event2 leds
+
+I: Bus=0003 Vendor=80ee Product=0021 Version=0110
+N: Name="VirtualBox USB Tablet"
+H: Handlers=mouse0 event3 js0
+

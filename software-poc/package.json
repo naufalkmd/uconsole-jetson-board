@@ -3,8 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check": "node tools/check.mjs",
     "export-state": "node tools/export-state.mjs",
     "serve": "node tools/dev-server.mjs",
+    "serve:real": "DATA_SOURCE=real node tools/dev-server.mjs",
+    "gpio:inspect": "node tools/inspect-gpio.mjs",
+    "test": "node --test",
     "validate": "node tools/validate-workflows.mjs"
   }
 }

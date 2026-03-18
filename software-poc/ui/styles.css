@@ -58,6 +58,7 @@ body {
 }
 
 .topbar,
+.health-panel,
 .metrics,
 .grid,
 .workflow-list {
@@ -162,6 +163,80 @@ body {
   margin-top: 8px;
 }
 
+.health-panel {
+  grid-template-columns: 0.8fr 1.2fr;
+  margin-bottom: 16px;
+}
+
+.health-summary,
+.warning-card {
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.health-summary {
+  padding: 20px;
+}
+
+.health-summary h2,
+.warning-card h3 {
+  margin: 10px 0 8px;
+}
+
+.health-summary.good {
+  border-color: rgba(107, 231, 164, 0.3);
+  background: linear-gradient(180deg, rgba(18, 52, 42, 0.92), rgba(10, 24, 22, 0.95));
+}
+
+.health-summary.alert {
+  border-color: rgba(255, 199, 111, 0.28);
+  background: linear-gradient(180deg, rgba(60, 41, 18, 0.92), rgba(24, 17, 10, 0.95));
+}
+
+.warning-list {
+  display: grid;
+  gap: 12px;
+}
+
+.warning-card {
+  padding: 16px;
+}
+
+.warning-card.warn {
+  border-color: rgba(255, 199, 111, 0.24);
+}
+
+.warning-card.bad {
+  border-color: rgba(255, 111, 125, 0.28);
+}
+
+.warning-card.good {
+  border-color: rgba(107, 231, 164, 0.28);
+}
+
+.warning-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.warning-card p {
+  margin: 0 0 10px;
+}
+
+.warning-card code {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 0.84rem;
+  background: rgba(5, 9, 16, 0.44);
+  border: 1px solid rgba(121, 194, 255, 0.16);
+  border-radius: 12px;
+  padding: 6px 10px;
+  word-break: break-word;
+}
+
 .grid {
   grid-template-columns: 1.1fr 0.9fr;
   margin-bottom: 16px;
@@ -243,6 +318,7 @@ body {
 
 @media (max-width: 1180px) {
   .topbar,
+  .health-panel,
   .grid,
   .metrics,
   .workflow-list {

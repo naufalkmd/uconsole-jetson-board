@@ -1,6 +1,10 @@
 const scenarios = window.MOCK_SCENARIOS ?? {};
 const scenarioNames = Object.keys(scenarios);
 const app = document.getElementById("app");
+const targetViewport = {
+  width: 1280,
+  height: 720
+};
 
 let activeScenario = scenarioNames.includes("default") ? "default" : scenarioNames[0];
 
@@ -41,10 +45,118 @@ function statusClass(status) {
   return "status bad";
 }
 
+function sourceHasFallback(source) {
+  return typeof source === "string" && source.includes("fallback");
+}
+
+function sourceHasUnavailable(source) {
+  return (
+    typeof source === "string" &&
+    (source.includes("unavailable") || source.includes("todo") || source.includes("none"))
+  );
+}
+
+function sourceHasConfiguredButUnreadable(source) {
+  return typeof source === "string" && source.includes("configured-unreadable");
+}
+
+function sourceHasUnconfigured(source) {
+  return typeof source === "string" && source.includes("unconfigured");
+}
+
+function liveHardwareWarnings(state) {
+  if (state.dataSource !== "real") {
+    return [];
+  }
+
+  const warnings = [];
+
+  if (
+    state.display.width !== targetViewport.width ||
+    state.display.height !== targetViewport.height
+  ) {
+    warnings.push({
+      severity: "warn",
+      title: "Viewport mismatch",
+      detail:
+        `Live display is ${state.display.width}x${state.display.height}. ` +
+        `The target handheld contract is ${targetViewport.width}x${targetViewport.height}.`,
+      source: state.display.source
+    });
+  }
+
+  if (!state.keyboard.connected) {
+    warnings.push({
+      severity: "bad",
+      title: "Keyboard not detected",
+      detail: "Terminal-first workflows will stay at risk until a keyboard device is visible.",
+      source: state.keyboard.source
+    });
+  } else if (state.keyboard.layout !== "uconsole") {
+    warnings.push({
+      severity: "warn",
+      title: "Keyboard profile is generic",
+      detail:
+        "Linux found a keyboard, but it does not yet identify as the intended UConsole layout.",
+      source: state.keyboard.source
+    });
+  }
+
+  if (!state.modem.present || !state.modem.powered || sourceHasUnavailable(state.modem.source)) {
+    warnings.push({
+      severity: "bad",
+      title: "Modem telemetry is offline",
+      detail:
+        "The live HAL could not confirm an attached, powered modem through ModemManager.",
+      source: state.modem.source
+    });
+  }
+
+  if (sourceHasConfiguredButUnreadable(state.dock.detectSource)) {
+    warnings.push({
+      severity: "bad",
+      title: "Dock detect GPIO is configured but unreadable",
+      detail:
+        "The dock-detect line is configured, but the real HAL could not read a live value from it.",
+      source: state.dock.detectSource
+    });
+  } else if (sourceHasUnconfigured(state.dock.detectSource)) {
+    warnings.push({
+      severity: "warn",
+      title: "Dock detect GPIO is not configured yet",
+      detail:
+        "Set the real dock-detect line so docked mode comes from carrier-board hardware instead of fallback behavior.",
+      source: state.dock.detectSource
+    });
+  } else if (state.dock.detectionMode === "ethernet-inference") {
+    warnings.push({
+      severity: "warn",
+      title: "Dock state is inferred from Ethernet",
+      detail:
+        "The current dock status is being inferred, not confirmed by a dedicated dock-detect signal.",
+      source: state.dock.source
+    });
+  }
+
+  if (sourceHasFallback(state.gpio.source)) {
+    warnings.push({
+      severity: "warn",
+      title: "Some GPIO lines still use fallback values",
+      detail:
+        "At least one non-display control line is still falling back instead of reading live hardware.",
+      source: state.gpio.source
+    });
+  }
+
+  return warnings;
+}
+
 function render() {
   const state = scenarios[activeScenario];
   const modemQuality = signalQuality(state.modem.signalDbm);
   const workflows = workflowChecks(state);
+  const gpioSignals = Object.entries(state.gpio).filter(([, value]) => typeof value === "boolean");
+  const warnings = liveHardwareWarnings(state);
 
   app.innerHTML = `
     <section class="topbar">
@@ -69,12 +181,60 @@ function render() {
           </div>
         </div>
         <div class="chip-row">
+          <div class="chip">Source ${state.dataSource ?? "mock"}</div>
           <div class="chip">Display ${state.display.mode}</div>
           <div class="chip">Modem ${state.modem.technology}</div>
           <div class="chip">Dock ${state.dock.connected ? "connected" : "disconnected"}</div>
         </div>
       </div>
     </section>
+
+    ${
+      state.dataSource === "real"
+        ? `
+          <section class="health-panel">
+            <div class="health-summary ${warnings.length ? "alert" : "good"}">
+              <div class="eyebrow">Live Hardware Checks</div>
+              <h2>${warnings.length ? `${warnings.length} warning${warnings.length === 1 ? "" : "s"}` : "Live hardware matches the current contract"}</h2>
+              <p>${
+                warnings.length
+                  ? "These warnings come from the real HAL snapshot feeding the preview."
+                  : "No mismatches were detected between the current live snapshot and the Week 1-2 interface contract."
+              }</p>
+            </div>
+            <div class="warning-list">
+              ${
+                warnings.length
+                  ? warnings
+                      .map(
+                        (warning) => `
+                          <article class="warning-card ${warning.severity}">
+                            <div class="warning-title-row">
+                              <div class="status ${warning.severity === "bad" ? "bad" : "warn"}">${warning.severity === "bad" ? "blocking" : "watch"}</div>
+                              <h3>${warning.title}</h3>
+                            </div>
+                            <p>${warning.detail}</p>
+                            <code>${warning.source}</code>
+                          </article>
+                        `
+                      )
+                      .join("")
+                  : `
+                    <article class="warning-card good">
+                      <div class="warning-title-row">
+                        <div class="status">ready</div>
+                        <h3>Live snapshot looks healthy</h3>
+                      </div>
+                      <p>Keyboard, display, modem, and GPIO sources currently line up with the preview contract.</p>
+                      <code>${state.display.source}</code>
+                    </article>
+                  `
+              }
+            </div>
+          </section>
+        `
+        : ""
+    }
 
     <section class="metrics">
       <article class="metric">
@@ -129,7 +289,7 @@ function render() {
       <article class="card">
         <h2>GPIO and Dock Signals</h2>
         <div class="list">
-          ${Object.entries(state.gpio)
+          ${gpioSignals
             .map(
               ([name, value]) => `
                 <span>

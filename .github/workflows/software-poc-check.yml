@@ -1,0 +1,32 @@
+name: software-poc-check
+
+on:
+  push:
+    paths:
+      - ".github/workflows/software-poc-check.yml"
+      - "software-poc/**"
+  pull_request:
+    paths:
+      - ".github/workflows/software-poc-check.yml"
+      - "software-poc/**"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: software-poc
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run software-poc checks
+        run: npm run check
+

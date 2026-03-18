@@ -13,7 +13,9 @@ const scenarios = {
   "Browser / Docs / Admin": createScenario("default"),
   "LTE Field Work": createScenario("field-lte"),
   "Docked Desk Mode": createScenario("docked-desk"),
-  "Low Battery Alerting": createScenario("low-battery")
+  "Low Battery Alerting": createScenario("low-battery"),
+  "Modem Outage Handling": createScenario("modem-outage"),
+  "Keyboard Disconnect Handling": createScenario("keyboard-disconnected")
 };
 
 const checks = [
@@ -61,6 +63,26 @@ const checks = [
       state.battery.warning &&
       state.battery.percentage <= 15 &&
       state.backlight.brightness <= 40
+  },
+  {
+    workflow: "Modem Outage Handling",
+    reason: "Needs explicit modem fault signals when modem hardware path is unavailable.",
+    test: (state) =>
+      !state.modem.present &&
+      !state.modem.powered &&
+      state.modem.sim === "missing" &&
+      !state.modem.ipAssigned &&
+      !state.gpio.modem_power &&
+      state.gpio.modem_reset
+  },
+  {
+    workflow: "Keyboard Disconnect Handling",
+    reason: "Needs handheld fallback when keyboard is unavailable.",
+    test: (state) =>
+      !state.keyboard.connected &&
+      state.keyboard.inputMode === "touch" &&
+      state.display.mode === "handheld" &&
+      state.backlight.enabled
   }
 ];
 

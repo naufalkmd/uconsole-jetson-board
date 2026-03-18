@@ -1,6 +1,6 @@
 # Workflow Validation Report
 
-Generated: 2026-03-18T09:44:54.111Z
+Generated: 2026-03-18T22:59:47.441Z
 
 ## Summary
 
@@ -9,6 +9,8 @@ Generated: 2026-03-18T09:44:54.111Z
 - PASS: LTE Field Work - Needs a live modem path, handheld mode, and adequate battery.
 - PASS: Docked Desk Mode - Needs dock detection, Ethernet, charging, and multiple peripherals.
 - PASS: Low Battery Alerting - Needs a warning state and reduced-brightness fallback.
+- PASS: Modem Outage Handling - Needs explicit modem fault signals when modem hardware path is unavailable.
+- PASS: Keyboard Disconnect Handling - Needs handheld fallback when keyboard is unavailable.
 
 ## Notes
 

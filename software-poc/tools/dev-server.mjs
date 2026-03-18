@@ -2,7 +2,7 @@ import http from "node:http";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { writeMockStateFile } from "./export-state.mjs";
+import { writeStateFile } from "./export-state.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -15,7 +15,7 @@ const mimeTypes = {
   ".js": "text/javascript; charset=utf-8"
 };
 
-await writeMockStateFile();
+const stateBundle = await writeStateFile();
 
 const server = http.createServer(async (request, response) => {
   try {
@@ -35,5 +35,7 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(port, () => {
-  console.log(`Software PoC preview running at http://127.0.0.1:${port}`);
+  console.log(
+    `Software PoC preview running at http://127.0.0.1:${port} using ${stateBundle.dataSource} data`
+  );
 });

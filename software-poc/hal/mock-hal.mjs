@@ -216,6 +216,26 @@ export function createScenario(name = "default") {
       hal.thermal.cpuC = 63;
       hal.thermal.skinC = 36;
       break;
+    case "modem-outage":
+      hal.battery.percentage = 53;
+      hal.battery.runtimeMinutes = 120;
+      hal.modem.present = false;
+      hal.modem.powered = false;
+      hal.modem.sim = "missing";
+      hal.modem.network = "searching";
+      hal.modem.signalDbm = -120;
+      hal.modem.ipAssigned = false;
+      hal.gpio.signals.modem_power = false;
+      hal.gpio.signals.modem_reset = true;
+      break;
+    case "keyboard-disconnected":
+      hal.battery.percentage = 48;
+      hal.battery.runtimeMinutes = 95;
+      hal.keyboard.connected = false;
+      hal.keyboard.inputMode = "touch";
+      hal.display.mode = "handheld";
+      hal.backlight.brightness = 78;
+      break;
     default:
       break;
   }
@@ -229,5 +249,12 @@ export function createScenario(name = "default") {
 }
 
 export function listScenarios() {
-  return ["default", "field-lte", "low-battery", "docked-desk"];
+  return [
+    "default",
+    "field-lte",
+    "low-battery",
+    "docked-desk",
+    "modem-outage",
+    "keyboard-disconnected"
+  ];
 }
