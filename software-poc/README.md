@@ -2,7 +2,7 @@
 
 This folder turns the README's Week 1-2 plan into concrete artifacts:
 
-1. Ubuntu 22.04 VM setup guidance at `1280x720`
+1. Jetson-facing bring-up guidance for the first real hardware pass
 2. A mock hardware abstraction layer for battery, modem, backlight, GPIO, thermal, dock, and display state
 3. A lightweight UI preview and workflow validation harness
 
@@ -66,7 +66,7 @@ This folder turns the README's Week 1-2 plan into concrete artifacts:
 
 ## Folder Layout
 
-- `docs/ubuntu-22.04-vm-setup.md`: recommended VM profile and host setup
+- `docs/jetson-bringup.md`: first-pass checklist for real Jetson hardware
 - `docs/workflow-validation.md`: manual validation checklist for the target workflows
 - `hal/mock-hal.mjs`: mock hardware abstraction layer
 - `hal/real-hal.mjs`: real hardware abstraction layer stub with the same snapshot contract
@@ -83,15 +83,19 @@ This folder turns the README's Week 1-2 plan into concrete artifacts:
 
 - A stable interface contract for future hardware-backed services
 - A repeatable set of "field handheld" and "docked desk" scenarios
-- A place to test UI layout before buying hardware
+- A place to test UI layout and bring-up behavior before the full hardware stack is ready
 
 ## What It Does Not Do Yet
 
-- Create the Ubuntu VM for you
+- Provision your development machine for you
 - Confirm real DSI panel timing
 - Measure real Jetson power or thermal behavior
 
-Those still require either your host hypervisor or real hardware.
+Those still require either external environment setup or real hardware.
+
+## Development Environment Notes
+
+- VM-specific setup and host-hypervisor notes now live in the separate `virtual-machine` repo: `https://github.com/naufalkmd/virtual-machine`
 
 ## Real HAL Notes
 

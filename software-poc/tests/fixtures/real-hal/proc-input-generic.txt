@@ -7,6 +7,5 @@ N: Name="AT Translated Set 2 keyboard"
 H: Handlers=sysrq kbd event2 leds
 
 I: Bus=0003 Vendor=80ee Product=0021 Version=0110
-N: Name="VirtualBox USB Tablet"
+N: Name="Generic USB Tablet"
 H: Handlers=mouse0 event3 js0
-
